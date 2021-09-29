@@ -1,7 +1,7 @@
 #define PWM_PIN 11
 #define ADC_PIN A0
 #define INC_DEL 50 //Delay time between incremet/decrement of dutyCycle
-#define NUM_INC 100
+#define NUM_INC 127
 
 uint8_t dutyCycle = 0; // 0-255 for 0%-100%
 uint8_t incFlag = 0;
@@ -64,6 +64,8 @@ void loop() {
     }
 
     analogWrite(PWM_PIN, dutyCycle);
+    Serial.print(dutyCycle);
+    Serial.print(", ");
     Serial.println(analogRead(ADC_PIN));
 }
 
