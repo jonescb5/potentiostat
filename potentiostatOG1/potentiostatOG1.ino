@@ -30,6 +30,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(a,OUTPUT);
   pinMode(ct,INPUT);
+//  analogWrite(a, 127);
 }
 
 void loop() {
