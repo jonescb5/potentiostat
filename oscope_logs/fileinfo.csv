@@ -1,0 +1,10 @@
+FileNum, Rtest, fpwm, CH1, CH2
+01, 1k, 31k, ReCe, We
+02, 10k, 31k, ReCe, We
+03, 1k, 31k, ReCe, We
+04, 1k, 3.9k, ReCe, We
+05, 10k, 3.9k, ReCe, We
+06, 10k, 3.9k, Vo, A0
+07, 10k, 31k, Vo, A0
+08, 1k, 31k, Vo, A0
+09, 1k, 3.9k, Vo, A0
