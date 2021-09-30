@@ -1,17 +1,19 @@
 #define PWM_PIN 11
 #define ADC_PIN A0
-#define INC_DEL 50 //Delay time between incremet/decrement of dutyCycle
-#define NUM_INC 127
+
+#define INC_DEL 50  //Delay time between incremet/decrement of dutyCycle
+#define NUM_INC 127 //Num times tmr ovf isr happens before increment of dutyCycle
 
 uint8_t dutyCycle = 0; // 0-255 for 0%-100%
 uint8_t incFlag = 0;
 uint8_t updn = 0;
 
 void setup() {
-  TIMSK2 = (TIMSK2 & 0b11111000) | 0b00000001; // use TIMER2_COMPA_vect
+  TIMSK2 = (TIMSK2 & 0b11111000) | 0b00000001; // use TIMER2_OVF_vect
   
 //  BEGIN   PWM SETUP
-  TCCR2B = TCCR2B & B11111000 | B00000010; // 3.9KHz
+  TCCR2B = TCCR2B & 0b11111000 | 0b00000010; // 3.9KHz
+//  TCCR2B = TCCR2B & 0b11111000 | 0b00000001; // 31KHz
   pinMode(PWM_PIN, OUTPUT);
   analogWrite(PWM_PIN, dutyCycle);
 //  END     PWM SETUP
@@ -23,7 +25,7 @@ void setup() {
   pinMode(ADC_PIN, INPUT);
 //  END     ADC SETUP
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 
 }
 
@@ -50,6 +52,7 @@ void loop() {
     if(incFlag >= NUM_INC & updn == 0){
       incFlag = 0;
       dutyCycle++;
+      analogWrite(PWM_PIN, dutyCycle);
       if(dutyCycle == 255){
         updn = 1;
       }
@@ -58,12 +61,13 @@ void loop() {
     else if(incFlag >= NUM_INC & updn == 1){
       incFlag = 0;
       dutyCycle--;
+      analogWrite(PWM_PIN, dutyCycle);
       if(dutyCycle == 0){
         updn = 0;
       }
     }
 
-    analogWrite(PWM_PIN, dutyCycle);
+    
     Serial.print(dutyCycle);
     Serial.print(", ");
     Serial.println(analogRead(ADC_PIN));
