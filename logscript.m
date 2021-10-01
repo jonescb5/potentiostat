@@ -8,12 +8,13 @@ infopath = path + "fileinfo.csv";
 fileinfo = readtable(infopath,'Delimiter', ',');
 numLogs = height(fileinfo);
 
-for n = 1:numLogs
+for n = 2:numLogs
     filepath = path + string(fileinfo.FileName(n));
     BK = readtable(filepath, 'Delimiter', ',');
     
     plotTitle = string(fileinfo.FileName(n)) + " (" + string(fileinfo.R_test(n)) + ", " + string(fileinfo.f_pwm(n)) + ")";
-    plotyLabel = string(fileinfo.CH1(n)) + ", "+ string(fileinfo.CH2(n))+ " (V)";
+%     plotyLabel = string(fileinfo.CH1(n)) + ", "+ string(fileinfo.CH2(n))+ " (V)";
+    plotyLabel = "Voltage (V)";
     BKt = BK.Var4(3:end);
     BKCH1 = BK.Var5(3:end);
     BKCH2 = BK.Var6(3:end);
@@ -28,7 +29,8 @@ for n = 1:numLogs
 
     title(plotTitle);
     ylabel(plotyLabel);
-    xlabel('Time');
+    xlabel('Time (s)');
+    legend(string(fileinfo.CH1(n)), string(fileinfo.CH2(n)));
     hold off
     
 end
