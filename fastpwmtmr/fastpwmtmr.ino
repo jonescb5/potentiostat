@@ -12,16 +12,20 @@
 #ifdef _DIVTWO_
 #define NUM_INC 127 //Num times tmr ovf isr happens before increment of dutyCycle
 //clipping occurs at dutyCycle values less than DTY_MIN, greater than DTY_MAX 
-#define DTY_MIN 13 //dutyCycle minimum value
-#define DTY_MAX 238 //dutyCycle maximum value
+//#define DTY_MIN 13 //dutyCycle minimum value
+//#define DTY_MAX 238 //dutyCycle maximum value
+#define DTY_MIN 0 //dutyCycle minimum value
+#define DTY_MAX 180 //dutyCycle maximum value
 #define PRESCLR 0b00000001
 #endif
 
 #ifdef _DIVFOUR_
 #define NUM_INC 15 //Num times tmr ovf isr happens before increment of dutyCycle
 //clipping occurs at dutyCycle values less than DTY_MIN, greater than DTY_MAX 
-#define DTY_MIN 17 //dutyCycle minimum value
-#define DTY_MAX 240 //dutyCycle maximum value
+//#define DTY_MIN 17 //dutyCycle minimum value
+//#define DTY_MAX 240 //dutyCycle maximum value
+#define DTY_MIN 0 //dutyCycle minimum value
+#define DTY_MAX 255 //dutyCycle maximum value
 #define PRESCLR 0b00000010
 #endif
 
@@ -55,7 +59,7 @@ void loop() {
       incFlag = 0;
       dutyCycle++;
       analogWrite(PWM_PIN, dutyCycle);
-      if(dutyCycle == DTY_MAX){
+      if(dutyCycle >= DTY_MAX){
         updn = 1;
       }
 
@@ -64,7 +68,7 @@ void loop() {
       incFlag = 0;
       dutyCycle--;
       analogWrite(PWM_PIN, dutyCycle);
-      if(dutyCycle == DTY_MIN){
+      if(dutyCycle <= DTY_MIN){
         updn = 0;
       }
     }

@@ -1,0 +1,12 @@
+FileName, R_test, f_pwm, CH1, CH2
+BK000001.CSV, 1KOhm, 3.9KHz, Vin, Vo
+BK000002.CSV, 1KOhm, 3.9KHz, Vin, Vo
+BK000003.CSV, 1KOhm, 3.9KHz, PWM, Vflt
+BK000004.CSV, 1KOhm, 3.9KHz, ReCe, We
+BK000005.CSV, Open, 3.9KHz, ReCe, We
+BK000006.CSV, 10KOhm, 3.9KHz, ReCe, We
+BK000007.CSV, allOpen, 3.9KHz, Vco, Vcvc
+BK000008.CSV, 1KOhm, 3.9KHz, Vco, Vcvc
+BK000009.CSV, 10KOhm, 3.9KHz, Vco, Vcvc
+
+BK000010.CSV, 10KOhm, 3.9KHz, ReCe, We //NOTE: changed config to old +13 across opamp to ground
