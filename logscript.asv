@@ -33,7 +33,7 @@ for n = 1:numLogs
     plot(ch1ts);
     subplot(2,1,2)
     plot(ch2ts);
-    legend(string(fileinfo.CH1(n)), string(fileinfo.CH2(n)));
+    legend(string(fileinfo.CH1(n)), );
 %     hold off
   
 
