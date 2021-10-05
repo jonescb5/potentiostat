@@ -28,13 +28,16 @@ for n = 1:numLogs
 %     ch1ts = timeseries(BKdiff, BKt);
 
     figure(n)
-    subplot(2,1,1)
-%     hold on
+    %subplot(2,1,1)
+    hold on
     plot(ch1ts);
-    subplot(2,1,2)
+    %subplot(2,1,2)
     plot(ch2ts);
     legend(string(fileinfo.CH1(n)), string(fileinfo.CH2(n)));
-%     hold off
+    ylabel(plotyLabel);
+    title(plotTitle);
+    xlabel("Time (s)");
+    hold off
   
 
 end
