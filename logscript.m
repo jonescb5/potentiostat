@@ -25,18 +25,18 @@ for n = 4:4
     BKCH1 = BK.Var5(3:end);
     BKCH2 = BK.Var6(3:end);
     BKdiff = BKCH1 - BKCH2;
-    BKdiffr = BKCH2 - BKCH1;
+%     BKdiffr = BKCH2 - BKCH1;
     
     I = BKdiff / R;
-    Ir = BKdiffr / R;
+%     Ir = BKdiffr / R;
     
     ch1ts = timeseries(BKCH1, BKt);
     ch2ts = timeseries(BKCH2, BKt);
     
     chdiffts = timeseries(BKdiff, BKt);
-    chdiffrts = timeseries(BKdiffr, BKt);
+%     chdiffrts = timeseries(BKdiffr, BKt);
     Its = timeseries(I,BKt);
-    Irts = timeseries(Ir,BKt);
+%     Irts = timeseries(Ir,BKt);
 
     figure(n)
     
@@ -54,7 +54,7 @@ for n = 4:4
     subplot(3,1,2)
     hold on
     plot(chdiffts);
-    plot(chdiffrts);
+%     plot(chdiffrts);
 %     legend(string(fileinfo.CH1(n)), string(fileinfo.CH2(n)));
 %     ylabel(plotyLabel);
 %     title(plotTitlediff);
@@ -63,7 +63,7 @@ for n = 4:4
     subplot(3,1,3)
     hold on
     plot(Its);
-    plot(Irts);
+%     plot(Irts);
     %legend(string(fileinfo.CH1(n)), string(fileinfo.CH2(n)));
 %     ylabel(plotyLabel);
 %     title(plotTitlediff);

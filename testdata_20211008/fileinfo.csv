@@ -1,0 +1,9 @@
+FileName, R_test, f_pwm, CH1, CH2
+BK000001.CSV, 1KOhm, 3.9KHz, Vpwm, Vrc
+BK000002.CSV, 1KOhm, 3.9KHz, Vin, Vo
+BK000003.CSV, 1KOhm, 3.9KHz, Vm1a, Vm1b
+BK000004.CSV, 10KOhm, 3.9KHz, Vm1a, Vm1b
+BK000005.CSV, 1KOhm, 3.9KHz, Vm2a, Vm2b
+BK000006.CSV, 10KOhm, 3.9KHz, Vm2a, Vm2b
+BK000007.CSV, 1KOhm, 3.9KHz, Vc, Vcvc
+BK000008.CSV, 10KOhm, 3.9KHz, Vc, Vcvc
