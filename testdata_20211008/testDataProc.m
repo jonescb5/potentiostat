@@ -24,7 +24,7 @@ BK6 = readtable(string(fileinfo.FileName(6)), 'Delimiter', ',');
 BK7 = readtable(string(fileinfo.FileName(7)), 'Delimiter', ',');
 BK8 = readtable(string(fileinfo.FileName(8)), 'Delimiter', ',');
 
-l=10000;
+l=10000; %2 second plot width
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 1
 %    Vpwm, Vrc
@@ -34,10 +34,13 @@ n = 1;
 c = 17753;
 lower = c - l/2;
 upper = c + l/2;
-% l = upper-lower;
 t = BK1.Var4(lower:upper);
 vpwm = BK1.Var5(lower:upper);
 vrc = BK1.Var6(lower:upper);
+
+
+% vpwm = smoothdata(vpwm, 'gaussian', 100);
+% vrc = smoothdata(vrc, 'gaussian', 100);
 
 vpwmts = timeseries(vpwm, t);
 vrcts = timeseries(vrc, t);
@@ -49,8 +52,8 @@ figure(n)
 %top plot
 subplot(2,1,1)
 
-plotTitle = string(fileinfo.FileName(n)) + " (" + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")";
-%plotTitle = "Vpwm";
+% plotTitle = {"PWM Sweep Measurement (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
+plotTitle = {"PWM Sweep Measurement" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "Voltage (V)";
 leg = "Vpwm";
@@ -70,8 +73,8 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = string(fileinfo.FileName(n)) + " (" + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")";
-% plotTitle = "";
+% plotTitle = {"RC Filter Output (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
+plotTitle = {"RC Filter Output" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "Voltage (V)";
 leg = "Vrc";
@@ -92,7 +95,7 @@ hold off
 
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 2
-%    Vpwm, Vrc
+%    Vin, Vo
 %}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 n=2;
 c = 21003;
@@ -102,6 +105,8 @@ t = BK2.Var4(lower:upper);
 vin = BK2.Var5(lower:upper);
 vo = BK2.Var6(lower:upper);
 
+vin = smoothdata(vin, 'gaussian', 100);
+vo = smoothdata(vo, 'gaussian', 100);
 
 vints = timeseries(vin, t);
 vots = timeseries(vo, t);
@@ -112,7 +117,7 @@ figure(n)
 %top plot
 subplot(2,1,1)
 
-plotTitle = "Vin";
+plotTitle = {"DAC Output Measurement (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "V";
 leg = "Vin";
@@ -132,7 +137,7 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = "Vo";
+plotTitle = {"Summing Amp Output Measurment (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "V";
 leg = "Vo";
@@ -152,7 +157,7 @@ hold off
 
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 3
-%    Vpwm, Vrc
+%    Vm1a, Vm1b, Im1, 1k
 %}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 n = 3;
 c = 21503;
@@ -161,11 +166,17 @@ upper = c + l/2;
 t = BK3.Var4(lower:upper);
 vm1a = BK3.Var5(lower:upper);
 vm1b = BK3.Var6(lower:upper);
+
+vm1a = smoothdata(vm1a, 'gaussian', 100);
+vm1b = smoothdata(vm1b, 'gaussian', 100);
+vdiff = vm1a - vm1b;
 im1 = (vm1a - vm1b)/Rm1;
+
+% im1 = smoothdata(im1);
 
 vm1ats = timeseries(vm1a, t);
 vm1bts = timeseries(vm1b, t);
-im1ts = timeseries(im1, t);
+im1ts = timeseries(im1, vdiff);
 
 
 figure(n)
@@ -173,10 +184,9 @@ figure(n)
 %top plot
 subplot(2,1,1)
 
-plotTitle = "Vm1a, Vm1b, 1k";
+plotTitle = {"Counter Electrode Voltage Measurment (Rm1) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
-yaxis = "V";
-% leg = "";
+yaxis = "E (V)";
 
 
 hold on
@@ -187,7 +197,6 @@ plot(vm1bts);
 title(plotTitle);
 xlabel(xaxis);
 ylabel(yaxis);
-% legend(leg);
 legend("Vm1a","Vm1b");
 
 hold off
@@ -195,7 +204,7 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = "Im1, 10k";
+plotTitle = {"Counter Electrode Derived Current (Rm1) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "I (A)";
 leg = "Im1";
@@ -215,7 +224,7 @@ hold off
 
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 4
-%    Vpwm, Vrc
+%    Vm1a, Vm1b, Im1, 10k
 %}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 n = 4;
 c = 24253;
@@ -224,11 +233,16 @@ upper = c + l/2;
 t = BK4.Var4(lower:upper);
 vm1a = BK4.Var5(lower:upper);
 vm1b = BK4.Var6(lower:upper);
+
+vm1a = smoothdata(vm1a, 'gaussian', 100);
+vm1b = smoothdata(vm1b, 'gaussian', 100);
+vdiff = vm1a - vm1b;
+
 im1 = (vm1a - vm1b)/Rm1;
 
 vm1ats = timeseries(vm1a, t);
 vm1bts = timeseries(vm1b, t);
-im1ts = timeseries(im1, t);
+im1ts = timeseries(im1, vdiff);
 
 
 figure(n)
@@ -236,9 +250,9 @@ figure(n)
 %top plot
 subplot(2,1,1)
 
-plotTitle = "Vm1a, Vm1b, 10k";
+plotTitle = {"Counter Electrode Voltage Measurment (Rm1) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
-yaxis = "V";
+yaxis = "E (V)";
 % leg = "";
 
 
@@ -258,8 +272,8 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = "Im1, 10k";
-xaxis = "Time (s)";
+plotTitle = {"Counter Electrode Derived Current (Rm1) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
+xaxis = "E (V)";
 yaxis = "I (A)";
 leg = "Im1";
 
@@ -278,7 +292,7 @@ hold off
 
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 5
-%    Vpwm, Vrc
+%    Vm2a, Vm2b, Im2, 1k
 %}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 n = 5;
 c = 23428;
@@ -287,11 +301,15 @@ upper = c + l/2;
 t = BK5.Var4(lower:upper);
 vm2a = BK5.Var5(lower:upper);
 vm2b = BK5.Var6(lower:upper);
+
+vm2a = smoothdata(vm2a, 'gaussian', 100);
+vm2b = smoothdata(vm2b, 'gaussian', 100);
+vdiff = vm2a - vm2b;
 im2 = (vm2a - vm2b)/Rm2;
 
 vm1ats = timeseries(vm2a, t);
 vm1bts = timeseries(vm2b, t);
-im1ts = timeseries(im2, t);
+im1ts = timeseries(im2, vdiff);
 
 
 figure(n)
@@ -299,10 +317,9 @@ figure(n)
 %top plot
 subplot(2,1,1)
 
-plotTitle = "Vm2a, Vm2b, 1k";
+plotTitle = {"Test Resistor Voltage Measurment (Rm2) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
-yaxis = "V";
-% leg = "";
+yaxis = "E (V)";
 
 
 hold on
@@ -313,7 +330,6 @@ plot(vm1bts);
 title(plotTitle);
 xlabel(xaxis);
 ylabel(yaxis);
-% legend(leg);
 legend("Vm2a","Vm2b");
 
 hold off
@@ -321,8 +337,8 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = "Im2, 1k";
-xaxis = "Time (s)";
+plotTitle = {"Test Resistor Polarization Curve (Rm2) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
+xaxis = "E (V)";
 yaxis = "I (A)";
 leg = "Im2";
 
@@ -341,7 +357,7 @@ hold off
 
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 6
-%    Vpwm, Vrc
+%    Vm2a, Vm2b, Im2, 10k
 %}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 n = 6;
@@ -351,11 +367,15 @@ upper = c + l/2;
 t = BK6.Var4(lower:upper);
 vm2a = BK6.Var5(lower:upper);
 vm2b = BK6.Var6(lower:upper);
+
+vm2a = smoothdata(vm2a, 'gaussian', 100);
+vm2b = smoothdata(vm2b, 'gaussian', 100);
+vdiff = vm2a - vm2b;
 im2 = (vm2a - vm2b)/Rm2;
 
 vm1ats = timeseries(vm2a, t);
 vm1bts = timeseries(vm2b, t);
-im1ts = timeseries(im2, t);
+im1ts = timeseries(im2, vdiff);
 
 
 figure(n)
@@ -363,9 +383,9 @@ figure(n)
 %top plot
 subplot(2,1,1)
     
-plotTitle = "Vm2a, Vm2b, 10k";
+plotTitle = {"Test Resistor Voltage Measurment (Rm2) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
-yaxis = "V";
+yaxis = "E (V)";
 % leg = "";
 
 
@@ -385,14 +405,14 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = "Im2, 10k";
-xaxis = "Time (s)";
+plotTitle = {"Test Resistor Polarization Curve (Rm2) (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
+xaxis = "E (V)";
 yaxis = "I (A)";
 leg = "Im2";
 
 
 hold on
-
+%axis auto
 plot(im1ts);
 
 title(plotTitle);
@@ -405,7 +425,7 @@ hold off
 
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 7
-%    Vpwm, Vrc
+%    Vc, Vcvc, 1k
 %}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 n=7;
 c = 20853;
@@ -415,6 +435,8 @@ t = BK7.Var4(lower:upper);
 vc = BK7.Var5(lower:upper);
 vcvc = BK7.Var6(lower:upper);
 
+vc = smoothdata(vc, 'gaussian', 100);
+vcvc = smoothdata(vcvc, 'gaussian', 100);
 
 vcts = timeseries(vc, t);
 vcvcts = timeseries(vcvc, t);
@@ -425,7 +447,7 @@ figure(n)
 %top plot
 subplot(2,1,1)
 
-plotTitle = "Vc, 1k";
+plotTitle = {"Transimpedence Amp Voltage Measurment (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "V";
 leg = "Vc";
@@ -445,7 +467,7 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = "Vcvc, 1k";
+plotTitle = {"Ouput Measurement (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "V";
 leg = "Vcvc";
@@ -465,7 +487,7 @@ hold off
 
 %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    TEST 8
-%    Vpwm, Vrc
+%    Vc, Vcvc, 10k
 %}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 n=8;
@@ -476,6 +498,8 @@ t = BK8.Var4(lower:upper);
 vc = BK8.Var5(lower:upper);
 vcvc = BK8.Var6(lower:upper);
 
+vc = smoothdata(vc, 'gaussian', 100);
+vcvc = smoothdata(vcvc, 'gaussian', 100);
 
 vcts = timeseries(vc, t);
 vcvcts = timeseries(vcvc, t);
@@ -486,7 +510,7 @@ figure(n)
 %top plot
 subplot(2,1,1)
 
-plotTitle = "Vc, 10k";
+plotTitle = {"Transimpedence Amp Voltage Measurment (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "V";
 leg = "Vc";
@@ -506,7 +530,7 @@ hold off
 %bottom plot
 subplot(2,1,2)
 
-plotTitle = "Vcvc, 10k";
+plotTitle = {"Ouput Measurement (Gaussian, 100)" ; " (" + string(fileinfo.FileName(n))+ ", " + string(fileinfo.R_test(n))+ ", " + string(fileinfo.f_pwm(n)) + ")"};
 xaxis = "Time (s)";
 yaxis = "V";
 leg = "Vcvc";
