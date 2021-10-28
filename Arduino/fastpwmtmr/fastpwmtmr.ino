@@ -1,11 +1,13 @@
-#define _RAMP_
+//#define _RAMP_
 //#define _DIVTWO_  // 31KHz
 #define _DIVFOUR_  // 3.9KHz
 
+int dty_inc = 4;
 
 #define PWM_PIN 11
 #define ADC_PIN A0
 
+uint8_t dty[] = {0, 63, 127, 191, 255};
 
 //#define INC_DEL 50  //Delay time between incremet/decrement of dutyCycle
 
@@ -29,7 +31,7 @@
 #define PRESCLR 0b00000010
 #endif
 
-uint8_t dutyCycle = 127; // 0-255 for 0%-100%
+uint8_t dutyCycle = dty[dty_inc]; // 0-255 for 0%-100%
 uint16_t incFlag = 0;
 uint8_t updn = 0;
 
@@ -76,8 +78,8 @@ void loop() {
     delay(10);
 #endif
     
-    Serial.print(dutyCycle);
-    Serial.print(", ");
+    //Serial.print(dutyCycle);
+    //Serial.print(", ");
     Serial.println(analogRead(ADC_PIN));
 }
 
