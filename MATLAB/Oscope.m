@@ -2,11 +2,11 @@ clc
 clear
 close all
 
-prompt = 'Scan In Data? Y/N [Y]: ';
-str = input(prompt,'s');
-if isempty(str)
-    str = 'Y';
-end
+% prompt = 'Scan In Data? Y/N [Y]: ';
+% str = input(prompt,'s');
+% if isempty(str)
+%     str = 'Y';
+% end
 
 %% Get File Info
 infoFile = "fileinfo.csv";
@@ -32,7 +32,7 @@ for n = 1:numLogs
         scopeLog(n).x          = scopeLog(n).time;
         scopeLog(n).y          = scopeLog(n).time;
     else
-        error('Oscope Model Not Supported.')
+        error('Oscope Model Not Supported.')Rm1 = Rm - Rleads;
     end 
     
     
