@@ -2,7 +2,9 @@ clc
 clear
 close all
 
-csv = readcell('../Oscope_Logs/testdata_20211102/T0001ALL.CSV');
+csv = readcell('../Oscope_Logs/testdata_20211102/T0005ALL.CSV');
+Rname = "1M";
+
 n = 1;
 scopeLog(n).time       = cell2mat(csv(16:end, 1));
 scopeLog(n).ch1        = cell2mat(csv(16:end, 2));
@@ -12,10 +14,52 @@ scopeLog(n).ch2Peak    = cell2mat(csv(16:end, 5));
 scopeLog(n).x          = scopeLog(n).time;
 scopeLog(n).y          = scopeLog(n).time;
 
+Vo = scopeLog(n).ch1;
 Vcvc = scopeLog(n).ch2;
 
-R6 = 11770;
+Vo = smoothdata(Vo, 'gaussian', 500);
+Vcvc = smoothdata(Vcvc, 'gaussian', 500);
 
-iin = Vcvc/R6;
+mini = find(Vo == min(Vo));
+maxi = find(Vo == max(Vo));
+maxi = maxi(end);
 
-plot(scopeLog(n).ch1, iin);
+Vo = Vo(mini:maxi);
+Vcvc = Vcvc(mini:maxi);
+t = scopeLog(n).time(mini:maxi);
+
+ipt = findchangepts(Vcvc);
+
+
+
+Vo_ts = timeseries(Vo, t);
+Vcvc_ts = timeseries(Vcvc, t);
+
+
+
+
+figure();
+
+subplot(2,1,1);
+
+Vo_plot = plot(Vo_ts);
+
+title(Rname + " - Vo");
+ylabel('E/V');
+xlim([t(1) t(end)])
+datatip(Vo_plot)
+datatip(Vo_plot,'DataIndex',ipt)
+datatip(Vo_plot,'DataIndex',maxi)
+
+subplot(2,1,2);
+
+Vcvc_plot = plot(Vcvc_ts);
+title(Rname + " - Vcvc");
+ylabel('E/V');
+xlim([t(1) t(end)])
+hline(Vcvc(1))
+hline(Vcvc(end))
+vline(t(ipt))
+datatip(Vcvc_plot)
+datatip(Vcvc_plot,'DataIndex',ipt)
+datatip(Vcvc_plot,'DataIndex',maxi)
