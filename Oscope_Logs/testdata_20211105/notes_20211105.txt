@@ -1,0 +1,26 @@
+00, PS 0v, unity-gain, ripple
+02, PS 0v, unity-gain, 20sec, 1v/div
+03, PS 2.506v, unity-gain, 20sec, 1v/div
+04, PS 5.000v, unity-gain, 20sec, 1v/div
+05, PS 0.001v, 10k load, 20sec, 1v/div, @ We
+06, PS 2.504v, 10k load, 20sec, 1v/div, @ We
+07, PS 5.006v, 10k load, 20sec, 1v/div, @ We
+
+08, PS 0.001v, 10k load, 20sec, 1v/div, @ Re
+09, PS 2.500v, 10k load, 20sec, 1v/div, @ Re
+10, PS 5.002v, 10k load, 20sec, 1v/div, @ Re
+
+11, PS 0.002v, 10k load connected to CE-5v, 20sec, 1v/div, @ Re/Ce
+12, PS 2.503v, 10k load connected to CE-5v, 20sec, 1v/div, @ Re/Ce
+13, PS 5.001v, 10k load connected to CE-5v, 20sec, 1v/div, @ Re/Ce
+
+14, PS 0.001v, 10k load connected to CE-5v, 20sec, 1v/div, @ "CVC in -"
+15, PS 2.504v, 10k load connected to CE-5v, 20sec, 1v/div, @ "CVC in -"
+16, PS 5.001v, 10k load connected to CE-5v, 20sec, 1v/div, @ "CVC in -"
+
+17, PWM, 10k load connected to CE-5v, 20sec, 1v/div, @ "CVC in -"
+
+19 bottom part, 0v in
+20 bottom part, 0.006v in
+21, Vo, Vout with pot mod: 7.07K ohm
+

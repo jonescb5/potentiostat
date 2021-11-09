@@ -78,8 +78,8 @@ void loop() {
     delay(10);
 #endif
     
-    //Serial.print(dutyCycle);
-    //Serial.print(", ");
+    Serial.print(dutyCycle);
+    Serial.print(", ");
     Serial.println(analogRead(ADC_PIN));
 }
 
