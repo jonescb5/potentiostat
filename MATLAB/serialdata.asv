@@ -1,0 +1,7 @@
+clc
+clear
+close all
+
+csv = readcell('../Serial_Logs/serlog_20211109/10klog.csv');
+Rname = "10k";
+

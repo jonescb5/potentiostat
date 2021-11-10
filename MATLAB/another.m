@@ -2,8 +2,8 @@ clc
 clear
 close all
 
-csv = readcell('../Oscope_Logs/testdata_20211102/T0005ALL.CSV');
-Rname = "1M";
+csv = readcell('../Oscope_Logs/testdata_20211109/T0004ALL.CSV');
+Rname = "Sample";
 
 n = 1;
 scopeLog(n).time       = cell2mat(csv(16:end, 1));
@@ -63,3 +63,20 @@ vline(t(ipt))
 datatip(Vcvc_plot)
 datatip(Vcvc_plot,'DataIndex',ipt)
 datatip(Vcvc_plot,'DataIndex',maxi)
+
+
+% someticks = -400:100:400;
+figure();
+
+potential = flip(Vo);
+res_plot = plot(potential, Vcvc);
+
+title(Rname + " - Polarization Curve");
+ylabel('E/V - Vcvc (Iin)');
+xlabel('E/V')
+ylim([0 5])
+xlim([-1.25 1.25])
+datatip(res_plot)
+datatip(res_plot,'DataIndex',ipt)
+datatip(res_plot,'DataIndex',maxi)
+% yticks(someticks)
