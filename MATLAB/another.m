@@ -68,7 +68,7 @@ datatip(Vcvc_plot,'DataIndex',maxi)
 % someticks = -400:100:400;
 figure();
 
-potential = flip(Vo);
+potential = - Vo;
 res_plot = plot(potential, Vcvc);
 
 title(Rname + " - Polarization Curve");

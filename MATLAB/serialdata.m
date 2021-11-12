@@ -8,9 +8,12 @@ Rname = "10k";
 dac = cell2mat(csv(109:27124, 1));
 adc = cell2mat(csv(109:27124, 2));
 
-mini = find(dac == min(Vo));
-maxi = find(Vo == max(Vo));
-maxi = maxi(end);
+% mini = find(dac == min(dac));
+% maxi = find(adc == max(adc));
+% maxi = maxi(end);
+% 
+% dac = dac(mini:maxi);
+% adc = adc(mini:maxi);
 
 dac_ts = timeseries(dac);
 adc_ts = timeseries(adc);
