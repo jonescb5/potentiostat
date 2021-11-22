@@ -22,7 +22,9 @@ uint8_t dty[] = {0, 63, 127, 191, 255};
 #endif
 
 #ifdef _DIVFOUR_
-#define NUM_INC 127 //Num times tmr ovf isr happens before increment of dutyCycle
+//#define NUM_INC 152 //Num times tmr ovf isr happens before increment of dutyCycle
+#define NUM_INC 75 //Num times tmr ovf isr happens before increment of dutyCycle
+
 //clipping occurs at dutyCycle values less than DTY_MIN, greater than DTY_MAX 
 //#define DTY_MIN 17 //dutyCycle minimum value
 //#define DTY_MAX 240 //dutyCycle maximum value

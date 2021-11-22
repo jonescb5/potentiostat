@@ -2,7 +2,7 @@ clc
 clear
 close all
 
-csv = readcell('../Oscope_Logs/testdata_20211109/T0004ALL.CSV');
+csv = readcell('../Oscope_Logs/testdata_20211122/T0004ALL.CSV');
 Rname = "Sample";
 
 n = 1;
