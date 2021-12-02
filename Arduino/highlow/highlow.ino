@@ -2,12 +2,13 @@
 //#define _DIVTWO_  // 31KHz
 #define _DIVFOUR_  // 3.9KHz
 
-int dty_inc = 1;
+int dty_inc = 0;
 
 #define PWM_PIN 11
 #define ADC_PIN A0
 
-uint8_t dty[] = {255, 0};
+//uint8_t dty[] = {255, 0};/
+uint8_t dty[] = {0, 114, 63};
 
 //#define INC_DEL 50  //Delay time between incremet/decrement of dutyCycle
 
@@ -30,6 +31,8 @@ uint8_t dty[] = {255, 0};
 #define DTY_MAX 255 //dutyCycle maximum value
 #define PRESCLR 0b00000010
 #endif
+
+int tm = 0;
 
 uint8_t dutyCycle = dty[dty_inc]; // 0-255 for 0%-100%
 uint16_t incFlag = 0;
@@ -55,32 +58,34 @@ void setup() {
 
 void loop() {
   
-
-#ifdef _RAMP_
-    if(incFlag >= NUM_INC & updn == 0){
-      incFlag = 0;
-      dutyCycle++;
-      analogWrite(PWM_PIN, dutyCycle);
-      if(dutyCycle >= DTY_MAX){
-        updn = 1;
-      }
-
-    }
-    else if(incFlag >= NUM_INC & updn == 1){
-      incFlag = 0;
-      dutyCycle--;
-      analogWrite(PWM_PIN, dutyCycle);
-      if(dutyCycle <= DTY_MIN){
-        updn = 0;
-      }
-    }
-#else
-    delay(10);
-#endif
-    
-    Serial.print(dutyCycle);
+//
+//#ifdef _RAMP_
+//    if(incFlag >= NUM_INC & updn == 0){
+//      incFlag = 0;
+//      dutyCycle++;
+//      analogWrite(PWM_PIN, dutyCycle);
+//      if(dutyCycle >= DTY_MAX){
+//        updn = 1;
+//      }
+//
+//    }
+//    else if(incFlag >= NUM_INC & updn == 1){
+//      incFlag = 0;
+//      dutyCycle--;
+//      analogWrite(PWM_PIN, dutyCycle);
+//      if(dutyCycle <= DTY_MIN){
+//        updn = 0;
+//      }
+//    }
+//#else
+//    delay(10);
+//#endif
+    delay(100);
+    //Serial.print(dutyCycle);
+    Serial.print(tm);
     Serial.print(", ");
     Serial.println(analogRead(ADC_PIN));
+    tm++;
 }
 
 
